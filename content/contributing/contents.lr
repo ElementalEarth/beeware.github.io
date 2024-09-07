@@ -1,9 +1,29 @@
-_model: page
----
-title: Contributing
----
-body:
----
-summary: Want to contribute to BeeWare? Anyone is welcome to help out!
----
-sort_key: 4
+import toga
+from toga.style import Pack
+from toga.style.pack import COLUMN, ROW
+
+class ClickerApp(toga.App):
+    def startup(self):
+        self.main_window = toga.MainWindow(title=self.name)
+        
+        self.counter = 0
+        
+        self.label = toga.Label('Clicks: 0', style=Pack(padding=10))
+        self.button = toga.Button('Click me!', on_press=self.increment_counter, style=Pack(padding=10))
+        
+        box = toga.Box(style=Pack(direction=COLUMN, alignment='center', padding=10))
+        box.add(self.label)
+        box.add(self.button)
+        
+        self.main_window.content = box
+        self.main_window.show()
+    
+    def increment_counter(self, widget):
+        self.counter += 1
+        self.label.text = f'Clicks: {self.counter}'
+
+def main():
+    return ClickerApp('Clicker', 'org.beeware.clicker')
+
+if __name__ == '__main__':
+    main().main_loop()
